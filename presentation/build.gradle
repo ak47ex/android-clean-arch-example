@@ -1,0 +1,78 @@
+apply plugin: 'com.android.application'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
+
+
+    defaultConfig {
+        applicationId       globalConfiguration.getAt("androidApplicationId")
+        minSdkVersion       globalConfiguration.getAt("androidMinSdkVersion")
+        targetSdkVersion    globalConfiguration.getAt("androidTargetSdkVersion")
+        versionCode         globalConfiguration.getAt("androidVersionCode")
+        versionName         globalConfiguration.getAt("androidVersionName")
+
+        testInstrumentationRunner globalConfiguration.getAt("testInstrumentationRunner")
+        testApplicationId globalConfiguration.getAt("testApplicationId")
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'              //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+}
+
+dependencies {
+    def presentationDependencies = rootProject.ext.presentationDependencies
+    def presentationTestDependencies = rootProject.ext.presentationTestDependencies
+
+    implementation      project(':domain')
+    implementation      project(':data')
+
+    annotationProcessor presentationDependencies.daggerCompiler
+    implementation      presentationDependencies.dagger
+    implementation      presentationDependencies.butterKnife
+    annotationProcessor presentationDependencies.butterKnifeCompiler
+    implementation      presentationDependencies.recyclerView
+    implementation      presentationDependencies.cardView
+    implementation      presentationDependencies.fragment
+    implementation      presentationDependencies.rxJava
+    implementation      presentationDependencies.rxAndroid
+    implementation      presentationDependencies.picasso
+    compileOnly         presentationDependencies.javaxAnnotation
+
+    androidTestImplementation presentationTestDependencies.mockito
+    androidTestImplementation presentationTestDependencies.dexmaker
+    androidTestImplementation presentationTestDependencies.dexmakerMockito
+    androidTestImplementation presentationTestDependencies.espresso
+    androidTestImplementation presentationTestDependencies.testingSupportLib
+
+    implementation developmentDependencies.leakCanary
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+}

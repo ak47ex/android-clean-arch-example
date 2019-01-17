@@ -1,0 +1,29 @@
+apply from: 'dependencies.gradle'
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.4.0-beta01'
+    }
+}
+
+allprojects {
+    ext {
+        androidApplicationId = 'com.suenara.exampleapp.presentation'
+        androidVersionCode = 1
+        androidVersionName = "1.0"
+
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testApplicationId = 'com.suenara.exampleapp.presentation.test'
+
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
