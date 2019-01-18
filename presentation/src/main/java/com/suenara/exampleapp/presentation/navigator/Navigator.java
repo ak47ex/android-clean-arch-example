@@ -9,6 +9,7 @@ import com.suenara.exampleapp.presentation.view.activity.CatDetailsActivity;
 import com.suenara.exampleapp.presentation.view.activity.CatListActivity;
 import com.suenara.exampleapp.presentation.view.activity.DogDetailsActivity;
 import com.suenara.exampleapp.presentation.view.activity.DogListActivity;
+import com.suenara.exampleapp.presentation.view.activity.MainActivity;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,21 +20,12 @@ public class Navigator {
     @Inject
     public Navigator() {}
 
-    public void navigateToCatList(Context context) {
+    public void navigateToPets(Context context) {
         if (context == null) {
             return;
         }
 
-        Intent intentToLaunch = CatListActivity.getCallingIntent(context);
-        context.startActivity(intentToLaunch);
-    }
-
-    public void navigateToDogList(Context context) {
-        if (context == null) {
-            return;
-        }
-
-        Intent intentToLaunch = DogListActivity.getCallingIntent(context);
+        Intent intentToLaunch = MainActivity.getCallingIntent(context);
         context.startActivity(intentToLaunch);
     }
 

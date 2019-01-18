@@ -2,6 +2,7 @@ package com.suenara.exampleapp.presentation.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.suenara.exampleapp.presentation.R;
-import com.suenara.exampleapp.presentation.internal.di.components.DogComponent;
+import com.suenara.exampleapp.presentation.internal.di.components.PetComponent;
 import com.suenara.exampleapp.presentation.model.DogModel;
 import com.suenara.exampleapp.presentation.presenter.DogListPresenter;
 import com.suenara.exampleapp.presentation.view.DogListView;
@@ -35,7 +36,10 @@ public class DogListFragment extends BaseFragment implements DogListView {
         void onDogClicked(DogModel dogModel);
     }
 
+    private static final String RV_STATE = "rv_state";
+
     private Unbinder unbinder;
+    private Parcelable rvState;
 
     @Inject DogListPresenter dogListPresenter;
     @Inject DogsAdapter dogsAdapter;
@@ -53,9 +57,7 @@ public class DogListFragment extends BaseFragment implements DogListView {
         }
     };
 
-    public DogListFragment() {
-        setRetainInstance(true);
-    }
+    public DogListFragment() { }
 
     @Override
     public void onAttach(Context context) {
@@ -65,10 +67,11 @@ public class DogListFragment extends BaseFragment implements DogListView {
         }
     }
 
+
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getComponent(DogComponent.class).inject(this);
+    protected boolean onInjectView() throws IllegalStateException {
+        getComponent(PetComponent.class).inject(this);
+        return true;
     }
 
     @Nullable
@@ -76,13 +79,13 @@ public class DogListFragment extends BaseFragment implements DogListView {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_dog_list, container, false);
         unbinder = ButterKnife.bind(this, fragmentView);
-        setupRecyclerView();
         return fragmentView;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onViewInjected(Bundle savedInstanceState) {
+        super.onViewInjected(savedInstanceState);
+        setupRecyclerView();
         dogListPresenter.setView(this);
         if (savedInstanceState == null) {
             loadDogList();
@@ -99,6 +102,22 @@ public class DogListFragment extends BaseFragment implements DogListView {
     public void onPause() {
         super.onPause();
         dogListPresenter.pause();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Parcelable recylerViewState = rv_dogs.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(RV_STATE, recylerViewState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            rvState = savedInstanceState.getParcelable(RV_STATE);
+        }
     }
 
     @Override
@@ -149,6 +168,10 @@ public class DogListFragment extends BaseFragment implements DogListView {
         }
 
         dogsAdapter.setDogsCollection(dogModelCollection);
+        if (rvState != null) {
+            rv_dogs.getLayoutManager().onRestoreInstanceState(rvState);
+            rvState = null;
+        }
     }
 
     @Override

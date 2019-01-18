@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 
 import com.annimon.stream.Objects;
 import com.suenara.exampleapp.presentation.R;
-import com.suenara.exampleapp.presentation.internal.di.components.CatComponent;
+import com.suenara.exampleapp.presentation.internal.di.components.PetComponent;
 import com.suenara.exampleapp.presentation.model.CatModel;
 import com.suenara.exampleapp.presentation.presenter.CatDetailsPresenter;
 import com.suenara.exampleapp.presentation.view.CatDetailsView;
@@ -51,14 +51,13 @@ public class CatDetailsFragment extends BaseFragment implements CatDetailsView {
         return catDetailsFragment;
     }
 
-    public CatDetailsFragment() {
-        setRetainInstance(true);
-    }
+    public CatDetailsFragment() { }
+
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getComponent(CatComponent.class).inject(this);
+    protected boolean onInjectView() throws IllegalStateException {
+        getComponent(PetComponent.class).inject(this);
+        return true;
     }
 
     @Nullable
@@ -70,8 +69,8 @@ public class CatDetailsFragment extends BaseFragment implements CatDetailsView {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onViewInjected(Bundle savedInstanceState) {
+        super.onViewInjected(savedInstanceState);
         catDetailsPresenter.setView(this);
         if (savedInstanceState == null) {
             loadCatDetails();

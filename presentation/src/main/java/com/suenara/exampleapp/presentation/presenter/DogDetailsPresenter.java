@@ -53,7 +53,8 @@ public class DogDetailsPresenter implements Presenter {
     }
 
     private void getDogDetails(DogModel dogModel) {
-        //TODO:
+        showDogDetailsInView(new Dog(dogModel.getTitle(), dogModel.getUrl()));
+        hideViewLoading();
     }
 
     private void showViewLoading() {

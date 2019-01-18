@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 
 import com.annimon.stream.Objects;
 import com.suenara.exampleapp.presentation.R;
-import com.suenara.exampleapp.presentation.internal.di.components.DogComponent;
+import com.suenara.exampleapp.presentation.internal.di.components.PetComponent;
 import com.suenara.exampleapp.presentation.model.DogModel;
 import com.suenara.exampleapp.presentation.presenter.DogDetailsPresenter;
 import com.suenara.exampleapp.presentation.view.DogDetailsView;
@@ -51,14 +51,12 @@ public class DogDetailsFragment extends BaseFragment implements DogDetailsView {
         return dogDetailsFragment;
     }
 
-    public DogDetailsFragment() {
-        setRetainInstance(true);
-    }
+    public DogDetailsFragment() { }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getComponent(DogComponent.class).inject(this);
+    protected boolean onInjectView() throws IllegalStateException {
+        getComponent(PetComponent.class).inject(this);
+        return true;
     }
 
     @Nullable
@@ -70,8 +68,8 @@ public class DogDetailsFragment extends BaseFragment implements DogDetailsView {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onViewInjected(Bundle savedInstanceState) {
+        super.onViewInjected(savedInstanceState);
         dogDetailsPresenter.setView(this);
         if (savedInstanceState == null) {
             loadDogDetails();

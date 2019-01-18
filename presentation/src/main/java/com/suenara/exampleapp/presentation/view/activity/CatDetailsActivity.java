@@ -6,12 +6,12 @@ import android.os.Bundle;
 
 import com.suenara.exampleapp.presentation.R;
 import com.suenara.exampleapp.presentation.internal.di.HasComponent;
-import com.suenara.exampleapp.presentation.internal.di.components.CatComponent;
-import com.suenara.exampleapp.presentation.internal.di.components.DaggerCatComponent;
+import com.suenara.exampleapp.presentation.internal.di.components.DaggerPetComponent;
+import com.suenara.exampleapp.presentation.internal.di.components.PetComponent;
 import com.suenara.exampleapp.presentation.model.CatModel;
 import com.suenara.exampleapp.presentation.view.fragment.CatDetailsFragment;
 
-public class CatDetailsActivity extends BaseActivity implements HasComponent<CatComponent> {
+public class CatDetailsActivity extends BaseActivity implements HasComponent<PetComponent> {
 
     private static final String INTENT_EXTRA_PARAM_URL = "com.suenara.INTENT_PARAM_URL";
     private static final String INTENT_EXTRA_PARAM_TITLE = "com.suenara.INTENT_PARAM_TITLE";
@@ -28,7 +28,7 @@ public class CatDetailsActivity extends BaseActivity implements HasComponent<Cat
     }
 
     private CatModel catModel;
-    private CatComponent catComponent;
+    private PetComponent catComponent;
 
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -49,7 +49,7 @@ public class CatDetailsActivity extends BaseActivity implements HasComponent<Cat
     }
 
     @Override
-    public CatComponent getComponent() {
+    public PetComponent getComponent() {
         return catComponent;
     }
 
@@ -68,7 +68,7 @@ public class CatDetailsActivity extends BaseActivity implements HasComponent<Cat
     }
 
     private void initializeInjector() {
-        catComponent = DaggerCatComponent.builder()
+        catComponent = DaggerPetComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .activityModule(getActivityModule())
                 .build();

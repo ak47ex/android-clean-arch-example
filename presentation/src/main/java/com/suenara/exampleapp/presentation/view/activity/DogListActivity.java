@@ -6,22 +6,19 @@ import android.os.Bundle;
 
 import com.suenara.exampleapp.presentation.R;
 import com.suenara.exampleapp.presentation.internal.di.HasComponent;
-import com.suenara.exampleapp.presentation.internal.di.components.CatComponent;
-import com.suenara.exampleapp.presentation.internal.di.components.DaggerDogComponent;
-import com.suenara.exampleapp.presentation.internal.di.components.DogComponent;
-import com.suenara.exampleapp.presentation.model.CatModel;
+import com.suenara.exampleapp.presentation.internal.di.components.DaggerPetComponent;
+import com.suenara.exampleapp.presentation.internal.di.components.PetComponent;
 import com.suenara.exampleapp.presentation.model.DogModel;
-import com.suenara.exampleapp.presentation.view.fragment.CatListFragment;
 import com.suenara.exampleapp.presentation.view.fragment.DogListFragment;
 
-public class DogListActivity extends BaseActivity implements HasComponent<DogComponent>,
+public class DogListActivity extends BaseActivity implements HasComponent<PetComponent>,
         DogListFragment.DogListListener {
 
     public static Intent getCallingIntent(Context context) {
         return new Intent(context, DogListActivity.class);
     }
 
-    private DogComponent component;
+    private PetComponent component;
 
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -35,7 +32,7 @@ public class DogListActivity extends BaseActivity implements HasComponent<DogCom
     }
 
     @Override
-    public DogComponent getComponent() {
+    public PetComponent getComponent() {
         return component;
     }
 
@@ -45,7 +42,7 @@ public class DogListActivity extends BaseActivity implements HasComponent<DogCom
     }
 
     private void initializeInjector() {
-        component = DaggerDogComponent.builder()
+        component = DaggerPetComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .activityModule(getActivityModule())
                 .build();

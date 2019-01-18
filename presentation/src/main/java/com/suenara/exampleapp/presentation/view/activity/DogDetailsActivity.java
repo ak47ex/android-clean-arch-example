@@ -6,12 +6,12 @@ import android.os.Bundle;
 
 import com.suenara.exampleapp.presentation.R;
 import com.suenara.exampleapp.presentation.internal.di.HasComponent;
-import com.suenara.exampleapp.presentation.internal.di.components.DaggerDogComponent;
-import com.suenara.exampleapp.presentation.internal.di.components.DogComponent;
+import com.suenara.exampleapp.presentation.internal.di.components.DaggerPetComponent;
+import com.suenara.exampleapp.presentation.internal.di.components.PetComponent;
 import com.suenara.exampleapp.presentation.model.DogModel;
 import com.suenara.exampleapp.presentation.view.fragment.DogDetailsFragment;
 
-public class DogDetailsActivity extends BaseActivity implements HasComponent<DogComponent> {
+public class DogDetailsActivity extends BaseActivity implements HasComponent<PetComponent> {
 
     private static final String INTENT_EXTRA_PARAM_URL = "com.suenara.INTENT_PARAM_URL";
     private static final String INTENT_EXTRA_PARAM_TITLE = "com.suenara.INTENT_PARAM_TITLE";
@@ -28,7 +28,7 @@ public class DogDetailsActivity extends BaseActivity implements HasComponent<Dog
     }
 
     private DogModel dogModel;
-    private DogComponent dogComponent;
+    private PetComponent petComponent;
 
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -49,8 +49,8 @@ public class DogDetailsActivity extends BaseActivity implements HasComponent<Dog
     }
 
     @Override
-    public DogComponent getComponent() {
-        return dogComponent;
+    public PetComponent getComponent() {
+        return petComponent;
     }
 
     private void initializeActivity(Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class DogDetailsActivity extends BaseActivity implements HasComponent<Dog
     }
 
     private void initializeInjector() {
-        dogComponent = DaggerDogComponent.builder()
+        petComponent = DaggerPetComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .activityModule(getActivityModule())
                 .build();

@@ -2,6 +2,7 @@ package com.suenara.exampleapp.presentation.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.suenara.exampleapp.presentation.R;
-import com.suenara.exampleapp.presentation.internal.di.components.CatComponent;
+import com.suenara.exampleapp.presentation.internal.di.components.PetComponent;
 import com.suenara.exampleapp.presentation.model.CatModel;
 import com.suenara.exampleapp.presentation.presenter.CatListPresenter;
 import com.suenara.exampleapp.presentation.view.CatListView;
@@ -38,7 +39,10 @@ public class CatListFragment extends BaseFragment implements CatListView {
         void onCatClicked(CatModel catModel);
     }
 
+    private static final String RV_STATE = "rv_state";
+
     private Unbinder unbinder;
+    private Parcelable rvState;
 
     @Inject CatListPresenter catListPresenter;
     @Inject CatsAdapter catsAdapter;
@@ -56,9 +60,7 @@ public class CatListFragment extends BaseFragment implements CatListView {
         }
     };
 
-    public CatListFragment() {
-        setRetainInstance(true);
-    }
+    public CatListFragment() { }
 
     @Override
     public void onAttach(Context context) {
@@ -69,9 +71,9 @@ public class CatListFragment extends BaseFragment implements CatListView {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getComponent(CatComponent.class).inject(this);
+    protected boolean onInjectView() throws IllegalStateException {
+        getComponent(PetComponent.class).inject(this);
+        return true;
     }
 
     @Nullable
@@ -79,13 +81,13 @@ public class CatListFragment extends BaseFragment implements CatListView {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_cat_list, container, false);
         unbinder = ButterKnife.bind(this, fragmentView);
-        setupRecyclerView();
         return fragmentView;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onViewInjected(Bundle savedInstanceState) {
+        super.onViewInjected(savedInstanceState);
+        setupRecyclerView();
         catListPresenter.setView(this);
         if (savedInstanceState == null) {
             loadCatList();
@@ -126,6 +128,23 @@ public class CatListFragment extends BaseFragment implements CatListView {
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Parcelable recylerViewState = rv_cats.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(RV_STATE, recylerViewState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            rvState = savedInstanceState.getParcelable(RV_STATE);
+        }
+    }
+
+    @Override
     public void showLoading() {
         rl_progress.setVisibility(View.VISIBLE);
     }
@@ -154,6 +173,11 @@ public class CatListFragment extends BaseFragment implements CatListView {
         catsAdapter.setCatsCollection(catModelCollection);
         rv_cats.getAdapter().notifyDataSetChanged();
         rv_cats.scheduleLayoutAnimation();
+
+        if (rvState != null) {
+            rv_cats.getLayoutManager().onRestoreInstanceState(rvState);
+            rvState = null;
+        }
     }
 
     @Override
