@@ -76,8 +76,8 @@ public class MainActivity extends BaseActivity implements HasComponent<PetCompon
 
     private void prepareTabLayout() {
         tl_main.addOnTabSelectedListener(this);
-        tl_main.addTab(tl_main.newTab().setText(R.string.tab_cats));
-        tl_main.addTab(tl_main.newTab().setText(R.string.tab_dogs));
+        tl_main.addTab(tl_main.newTab().setText(R.string.tab_cats).setIcon(R.drawable.cat_icon));
+        tl_main.addTab(tl_main.newTab().setText(R.string.tab_dogs).setIcon(R.drawable.dog_icon));
     }
 
     @Override

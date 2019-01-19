@@ -74,7 +74,4 @@ dependencies {
     androidTestImplementation presentationTestDependencies.espresso
     androidTestImplementation presentationTestDependencies.testingSupportLib
 
-    implementation developmentDependencies.leakCanary
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-
 }

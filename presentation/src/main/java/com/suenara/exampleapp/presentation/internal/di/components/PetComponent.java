@@ -4,7 +4,6 @@ import com.suenara.exampleapp.presentation.internal.di.PerActivity;
 import com.suenara.exampleapp.presentation.internal.di.modules.ActivityModule;
 import com.suenara.exampleapp.presentation.internal.di.modules.CatModule;
 import com.suenara.exampleapp.presentation.internal.di.modules.DogModule;
-import com.suenara.exampleapp.presentation.model.DogModel;
 import com.suenara.exampleapp.presentation.view.fragment.CatDetailsFragment;
 import com.suenara.exampleapp.presentation.view.fragment.CatListFragment;
 import com.suenara.exampleapp.presentation.view.fragment.DogDetailsFragment;

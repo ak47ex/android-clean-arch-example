@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.suenara.exampleapp.data.executor.JobExecutor;
 import com.suenara.exampleapp.data.repository.PetDataRepository;
-import com.suenara.exampleapp.data.repository.datasourse.PetDataStore;
 import com.suenara.exampleapp.domain.executor.PostExecutionThread;
 import com.suenara.exampleapp.domain.executor.ThreadExecutor;
 import com.suenara.exampleapp.domain.repository.PetRepository;

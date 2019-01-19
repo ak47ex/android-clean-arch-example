@@ -1,7 +1,6 @@
 package com.suenara.exampleapp.data.cache;
 
 import com.suenara.exampleapp.data.entity.CatEntity;
-import com.suenara.exampleapp.data.entity.DogEntity;
 
 import java.util.List;
 
