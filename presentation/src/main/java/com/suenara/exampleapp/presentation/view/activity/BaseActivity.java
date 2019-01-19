@@ -1,6 +1,7 @@
 package com.suenara.exampleapp.presentation.view.activity;
 
 import android.os.Bundle;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -24,11 +25,41 @@ public abstract class BaseActivity extends FragmentActivity {
         getApplicationComponent().inject(this);
     }
 
+    //region Fragment interaction
+
     protected void addFragment(int containerViewId, Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(containerViewId, fragment);
         fragmentTransaction.commit();
     }
+
+    protected void addFragment(ViewGroup containerView, Fragment fragment) {
+        addFragment(containerView.getId(), fragment);
+    }
+
+    protected void replaceFragment(int containerViewId, Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(containerViewId, fragment);
+        fragmentTransaction.commit();
+    }
+
+    protected void replaceFragment(ViewGroup containerView, Fragment fragment) {
+        replaceFragment(containerView.getId(), fragment);
+    }
+
+    protected void hideFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.hide(fragment);
+        fragmentTransaction.commit();
+    }
+
+    protected void showFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.show(fragment);
+        fragmentTransaction.commit();
+    }
+
+    //endregion
 
     protected ApplicationComponent getApplicationComponent() {
         return ((AndroidApplication)getApplication()).getApplicationComponent();

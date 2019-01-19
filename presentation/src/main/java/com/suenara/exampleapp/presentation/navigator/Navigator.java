@@ -6,9 +6,7 @@ import android.content.Intent;
 import com.suenara.exampleapp.presentation.model.CatModel;
 import com.suenara.exampleapp.presentation.model.DogModel;
 import com.suenara.exampleapp.presentation.view.activity.CatDetailsActivity;
-import com.suenara.exampleapp.presentation.view.activity.CatListActivity;
 import com.suenara.exampleapp.presentation.view.activity.DogDetailsActivity;
-import com.suenara.exampleapp.presentation.view.activity.DogListActivity;
 import com.suenara.exampleapp.presentation.view.activity.MainActivity;
 
 import javax.inject.Inject;

@@ -21,8 +21,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.activity.DogListActivity"/>
-        <activity android:name=".view.activity.CatListActivity"/>
         <activity android:name=".view.activity.DogDetailsActivity"/>
         <activity android:name=".view.activity.CatDetailsActivity"/>
     </application>

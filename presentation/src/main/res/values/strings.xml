@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">My example app</string>
 
+    <string name="tab_cats">Cats</string>
+    <string name="tab_dogs">Dogs</string>
+
     <string name="btn_text_load_data">Launch</string>
     <string name="btn_text_retry">Retry</string>
 
